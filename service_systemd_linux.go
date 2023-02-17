@@ -318,7 +318,7 @@ ConditionFileIsExecutable={{.Path|cmdEscape}}
 StartLimitInterval=5
 StartLimitBurst=10
 {{range $i, $preCmd := .PreStartCommands}}
-{{$preCmd}} {{end}}
+ExecStartPre=-{{$preCmd}} {{end}}
 ExecStart={{.Path|cmdEscape}} {{.StartArgumentsStr}}
 {{if .StopArgumentsStr}}ExecStop={{.Path|cmdEscape}} {{.StopArgumentsStr}}{{end}}
 {{if .ChRoot}}RootDirectory={{.ChRoot|cmd}}{{end}}
