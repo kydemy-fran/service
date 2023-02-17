@@ -319,8 +319,8 @@ StartLimitInterval=5
 StartLimitBurst=10
 {{range $i, $preCmd := .PreStartCommands}}
 {{$preCmd}} {{end}}
-ExecStart={{.Path|cmdEscape}}{{.StartArgumentsStr}} {{.|cmd}}
-{{if .StopArgumentsStr}}ExecStop={{.Path|cmdEscape}}{{.StopArgumentsStr}} {{.|cmd}}{{end}}
+ExecStart={{.Path|cmdEscape}} {{.StartArgumentsStr}}
+{{if .StopArgumentsStr}}ExecStop={{.Path|cmdEscape}} {{.StopArgumentsStr}}{{end}}
 {{if .ChRoot}}RootDirectory={{.ChRoot|cmd}}{{end}}
 {{if .WorkingDirectory}}WorkingDirectory={{.WorkingDirectory|cmdEscape}}{{end}}
 {{if .UserName}}User={{.UserName}}{{end}}
