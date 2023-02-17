@@ -172,6 +172,7 @@ func (s *systemd) Install() error {
 		SuccessExitStatus    string
 		LogOutput            bool
 		LogDirectory         string
+		ArgumentsStr         string
 	}{
 		s.Config,
 		path,
@@ -183,9 +184,16 @@ func (s *systemd) Install() error {
 		s.Option.string(optionSuccessExitStatus, ""),
 		s.Option.bool(optionLogOutput, optionLogOutputDefault),
 		s.Option.string(optionLogDirectory, defaultLogDirectory),
+		strings.Join(s.Arguments, " "),
 	}
 
-	err = s.template().Execute(f, to)
+	sBuilder := new(strings.Builder)
+	err = s.template().Execute(sBuilder, to)
+	if err != nil {
+		return err
+	}
+
+	_, err = f.WriteString(strings.Replace(strings.TrimSpace(sBuilder.String()), "\n\n", "\n", -1))
 	if err != nil {
 		return err
 	}
@@ -307,7 +315,10 @@ ConditionFileIsExecutable={{.Path|cmdEscape}}
 [Service]
 StartLimitInterval=5
 StartLimitBurst=10
-ExecStart={{.Path|cmdEscape}}{{range .Arguments}} {{.|cmd}}{{end}}
+{{range $i, $preCmd := .PreStartCommands}}
+{{$preCmd}} {{end}}
+ExecStart={{.Path|cmdEscape}}{{.ArgumentsStr}} {{.|cmd}}{{end}}
+{{if .StopCommand}}ExecStart={{.StopCommand|cmd}}{{end}}
 {{if .ChRoot}}RootDirectory={{.ChRoot|cmd}}{{end}}
 {{if .WorkingDirectory}}WorkingDirectory={{.WorkingDirectory|cmdEscape}}{{end}}
 {{if .UserName}}User={{.UserName}}{{end}}
