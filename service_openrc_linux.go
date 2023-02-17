@@ -224,8 +224,8 @@ supervisor=supervise-daemon
 name="{{.DisplayName}}"
 description="{{.Description}}"
 command={{.Path|cmdEscape}}
-{{- if .Arguments }}
-command_args="{{range .Arguments}}{{.}} {{end}}"
+{{- if .StartArguments }}
+command_args="{{range .StartArguments}}{{.}} {{end}}"
 {{- end }}
 name=$(basename $(readlink -f $command))
 supervise_daemon_args="--stdout {{.LogDirectory}}/${name}.log --stderr {{.LogDirectory}}/${name}.err"

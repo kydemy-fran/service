@@ -172,7 +172,8 @@ func (s *systemd) Install() error {
 		SuccessExitStatus    string
 		LogOutput            bool
 		LogDirectory         string
-		ArgumentsStr         string
+		StartArgumentsStr    string
+		StopArgumentsStr     string
 	}{
 		s.Config,
 		path,
@@ -184,7 +185,8 @@ func (s *systemd) Install() error {
 		s.Option.string(optionSuccessExitStatus, ""),
 		s.Option.bool(optionLogOutput, optionLogOutputDefault),
 		s.Option.string(optionLogDirectory, defaultLogDirectory),
-		strings.Join(s.Arguments, " "),
+		strings.Join(s.StartArguments, " "),
+		strings.Join(s.StopArguments, " "),
 	}
 
 	sBuilder := new(strings.Builder)
@@ -317,8 +319,8 @@ StartLimitInterval=5
 StartLimitBurst=10
 {{range $i, $preCmd := .PreStartCommands}}
 {{$preCmd}} {{end}}
-ExecStart={{.Path|cmdEscape}}{{.ArgumentsStr}} {{.|cmd}}{{end}}
-{{if .StopCommand}}ExecStart={{.StopCommand|cmd}}{{end}}
+ExecStart={{.Path|cmdEscape}}{{.StartArgumentsStr}} {{.|cmd}}{{end}}
+{{if .StopArgumentsStr}}ExecStop={{.Path|cmdEscape}}{{.StopArgumentsStr}} {{.|cmd}}{{end}}
 {{if .ChRoot}}RootDirectory={{.ChRoot|cmd}}{{end}}
 {{if .WorkingDirectory}}WorkingDirectory={{.WorkingDirectory|cmdEscape}}{{end}}
 {{if .UserName}}User={{.UserName}}{{end}}

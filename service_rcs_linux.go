@@ -229,7 +229,7 @@ const rcsScript = `#!/bin/sh
 # Description:       {{.Description}}
 ### END INIT INFO
 
-cmd="{{.Path}}{{range .Arguments}} {{.|cmd}}{{end}}"
+cmd="{{.Path}}{{range .StartArguments}} {{.|cmd}}{{end}}"
 
 name={{.Name}}
 pid_file="/var/run/$name.pid"

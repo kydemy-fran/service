@@ -312,8 +312,8 @@ var launchdConfig = `<?xml version="1.0" encoding="UTF-8"?>
 	<key>ProgramArguments</key>
 	<array>
 		<string>{{html .Path}}</string>
-		{{- if .Config.Arguments}}
-		{{- range .Config.Arguments}}
+		{{- if .Config.StartArguments}}
+		{{- range .Config.StartArguments}}
 		<string>{{html .}}</string>
 		{{- end}}
 	{{- end}}

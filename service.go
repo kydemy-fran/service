@@ -111,11 +111,12 @@ const (
 
 // Config provides the setup for a Service. The Name field is required.
 type Config struct {
-	Name        string   // Required name of the service. No spaces suggested.
-	DisplayName string   // Display name, spaces allowed.
-	Description string   // Long description of service.
-	UserName    string   // Run as username.
-	Arguments   []string // Run with arguments.
+	Name           string   // Required name of the service. No spaces suggested.
+	DisplayName    string   // Display name, spaces allowed.
+	Description    string   // Long description of service.
+	UserName       string   // Run as username.
+	StartArguments []string // Run start command with arguments.
+	StopArguments  []string // Run stop command with arguments.
 
 	// Optional field to specify the executable for service.
 	// If empty the current executable is used.
@@ -123,9 +124,6 @@ type Config struct {
 
 	// Optional commands that will be executed before starting the service.
 	PreStartCommands []string
-
-	// Optional command to execute to stop the service.
-	StopCommand string
 
 	// Array of service dependencies.
 	// Not yet fully implemented on Linux or OS X:

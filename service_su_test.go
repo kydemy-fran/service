@@ -170,8 +170,8 @@ func mustNewRunAsService(
 	reportDir string,
 ) service.Service {
 	sc := &service.Config{
-		Name:      "go_service_test",
-		Arguments: []string{"-test.v=true", "-su.runAsService", "-su.reportDir", reportDir},
+		Name:           "go_service_test",
+		StartArguments: []string{"-test.v=true", "-su.runAsService", "-su.reportDir", reportDir},
 	}
 	s, err := service.New(p, sc)
 	if err != nil {
