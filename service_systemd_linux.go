@@ -174,6 +174,7 @@ func (s *systemd) Install() error {
 		LogDirectory         string
 		StartArgumentsStr    string
 		StopArgumentsStr     string
+		PermissionsStart     bool
 	}{
 		s.Config,
 		path,
@@ -187,6 +188,7 @@ func (s *systemd) Install() error {
 		s.Option.string(optionLogDirectory, defaultLogDirectory),
 		strings.Join(s.StartArguments, " "),
 		strings.Join(s.StopArguments, " "),
+		s.AddPermissionsStart,
 	}
 
 	sBuilder := new(strings.Builder)
@@ -317,6 +319,7 @@ ConditionFileIsExecutable={{.Path|cmdEscape}}
 [Service]
 StartLimitInterval=5
 StartLimitBurst=10
+{{if .PermissionsStart}}PermissionsStartOnly=true{{end}}
 {{range $i, $preCmd := .PreStartCommands}}
 ExecStartPre=-{{$preCmd}} {{end}}
 ExecStart={{.Path|cmdEscape}} {{.StartArgumentsStr}}

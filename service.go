@@ -111,12 +111,13 @@ const (
 
 // Config provides the setup for a Service. The Name field is required.
 type Config struct {
-	Name           string   // Required name of the service. No spaces suggested.
-	DisplayName    string   // Display name, spaces allowed.
-	Description    string   // Long description of service.
-	UserName       string   // Run as username.
-	StartArguments []string // Run start command with arguments.
-	StopArguments  []string // Run stop command with arguments.
+	Name                string   // Required name of the service. No spaces suggested.
+	DisplayName         string   // Display name, spaces allowed.
+	Description         string   // Long description of service.
+	UserName            string   // Run as username.
+	AddPermissionsStart bool     // Required for setcap -> access privileged ports
+	StartArguments      []string // Run start command with arguments.
+	StopArguments       []string // Run stop command with arguments.
 
 	// Optional field to specify the executable for service.
 	// If empty the current executable is used.
